@@ -1,0 +1,53 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f1c6d4; /* Розовый фон */
+}
+
+.container {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-section {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.entry {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.entry ul {
+    list-style: none;
+    padding: 0;
+}
+
+.entry li {
+    margin-bottom: 10px;
+}
+
+.image-qr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.image-qr img {
+    max-width: 200px;
+    height: auto;
+    border-radius: 10px;
+}
+
+input[type="text"],
+textarea {
+    width: 300px;
+}
