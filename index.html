@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Регистрация</title>
+</head>
+<body>
+    <h2>Форма регистрации</h2>
+    <form action="register.php" method="POST">
+        Логин: <input type="text" name="username" required><br><br>
+        Email: <input type="email" name="email" required><br><br>
+        Пароль: <input type="password" name="password" required><br><br>
+        <input type="submit" value="Зарегистрироваться">
+    </form>
+</body>
+</html>
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "participants_db";
+
+// Байланышуу
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Текшерүү
+if ($conn->connect_error) {
+    die("Кошулуу болбой калды: " . $conn->connect_error);
+}
+
+// Маалыматтарды алуу
+$name = $_POST['name'];
+$age = $_POST['age'];
+$about = $_POST['about'];
+$whatsapp = $_POST['whatsapp'];
+$photo = $_POST['photo'];
+
+// Базага жазуу
+$stmt = $conn->prepare("INSERT INTO participants (name, age, about, whatsapp, photo) VALUES (?, ?, ?, ?, ?)");
+$stmt->bind_param("sisss", $name, $age, $about, $whatsapp, $photo);
+
+if ($stmt->execute()) {
+    echo "Каттоо ийгиликтүү!";
+    header("Location: index.php"); // Артка кайтуу
+    exit;
+} else {
+    echo "Ката: " . $stmt->error;
+}
+
+$stmt->close();
+$conn->close();
+?>

@@ -1,0 +1,90 @@
+<?php
+include 'connect.php';
+
+$sql = "SELECT * FROM entries";
+$result = $conn->query($sql);
+?>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Анкета катышуучулар</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fcd2e2;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .entry {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .entry img {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .info {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .qr {
+            text-align: center;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<h2>Катышуучулардын анкетасы</h2>
+<div class="container">
+    <?php if ($result->num_rows > 0): ?>
+        <?php while($entry = $result->fetch_assoc()): ?>
+            <?php if (empty($entry['photo'])) continue; ?>
+            <div class="entry">
+                <img src="<?= htmlspecialchars($entry['photo']) ?>" alt="Фото">
+
+                <div class="info">
+                    <p><strong><?= htmlspecialchars($entry['name']) ?></strong></p>
+                    <p>Жашы: <?= htmlspecialchars($entry['age']) ?></p>
+                    <p><?= htmlspecialchars($entry['about']) ?></p>
+                </div>
+
+                <div class="qr">
+                    <p>
+                        <a href="https://wa.me/<?= urlencode($entry['whatsapp']) ?>" target="_blank">
+                            <?= htmlspecialchars($entry['whatsapp']) ?>
+                        </a>
+                    </p>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?data=https://wa.me/<?= urlencode($entry['whatsapp']) ?>&size=150x150" alt="QR код">
+                </div>
+            </div>
+        <?php endwhile; ?>
+    <?php else: ?>
+        <p style="text-align:center;">Маалымат табылган жок.</p>
+    <?php endif; ?>
+</div>
+</body>
+</html>
+
+<?php $conn->close(); ?>
